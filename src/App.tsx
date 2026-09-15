@@ -1,47 +1,55 @@
 import { useEffect, useState } from "react";
 import Navbar from "./components/Nav";
 import Hero from "./components/Hero";
+import TechGrid from "./components/TechGrid";
 import type { Technology } from "./types/technology";
 
 function App() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [stack, setStack] = useState<Technology[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTechnologies = async () => {
-      try {
-        const response = await fetch("/technology.json");
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch technologies");
-        }
-
-        const data: Technology[] = await response.json();
-
-        setTechnologies(data);
-      } catch (error) {
-        console.error("Error loading technologies:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTechnologies();
+    fetch("/technology.json")
+      .then((response) => response.json())
+      .then((data) => setTechnologies(data))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   }, []);
 
+  const addToStack = (technology: Technology) => {
+    setStack((currentStack) => {
+      if (currentStack.some((item) => item.id === technology.id)) {
+        return currentStack;
+      }
+
+      return [...currentStack, technology];
+    });
+  };
+
   return (
-    <div className="min-h-screen">
+    <>
       <Navbar />
       <Hero />
 
-      <div>
-        {loading ? (
-          <p>Loading technologies...</p>
-        ) : (
-          <p>{technologies.length} technologies loaded.</p>
-        )}
-      </div>
-    </div>
+      <section id="technologies" className="px-4 py-16">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="mb-10 text-center text-3xl font-bold">
+            Explore Technologies
+          </h2>
+
+          {loading ? (
+            <p className="text-center">Loading technologies...</p>
+          ) : (
+            <TechGrid
+              technologies={technologies}
+              stack={stack}
+              onAdd={addToStack}
+            />
+          )}
+        </div>
+      </section>
+    </>
   );
 }
 
