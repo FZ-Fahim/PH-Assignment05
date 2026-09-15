@@ -6,6 +6,7 @@ import Hero from "./components/Hero";
 import TechnologyGrid from "./components/TechGrid";
 import StackSidebar from "./components/StackSidebar";
 import type { Technology } from "./types/technology";
+import Footer from "./components/Footer";
 
 function App() {
   const [technologies, setTechnologies] = useState<Technology[]>([]);
@@ -58,9 +59,9 @@ function App() {
   return (
     <>
       <Navbar />
-
       <Hero />
       <ToastContainer />
+      
 
       <section
   id="technologies"
@@ -108,6 +109,9 @@ function App() {
     )}
   </div>
 </section>
+
+<Footer />
+    
     </>
   );
 }
