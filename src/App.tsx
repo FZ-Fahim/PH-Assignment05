@@ -62,39 +62,52 @@ function App() {
       <Hero />
       <ToastContainer />
 
-      <section id="technologies" className="bg-gray-50 px-4 py-16">
-        <div className="mx-auto max-w-7xl">
-          <h2 className="mb-10 text-center text-3xl font-bold text-gray-900">
-            Explore Technologies
-          </h2>
+      <section
+  id="technologies"
+  className="bg-gray-50 px-4 py-20 sm:px-6 lg:px-8"
+>
+  <div className="mx-auto max-w-7xl">
+    {/* Section Header */}
+    <div className="mb-12">
+      <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+        Explore Technologies
+      </h2>
 
-          {loading ? (
-            <p className="text-center text-gray-500">
-              Loading technologies...
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
-              {/* Technology Cards */}
-              <div className="lg:col-span-3">
-                <TechnologyGrid
-                  technologies={technologies}
-                  stack={stack}
-                  onAdd={addToStack}
-                />
-              </div>
+      <p className="mt-3 max-w-2xl text-gray-500">
+        Choose the technologies you need and build your personalized
+        development stack.
+      </p>
+    </div>
 
-              {/* Your Stack */}
-              <div className="lg:col-span-1">
-                <StackSidebar
-                  stack={stack}
-                  onRemove={removeFromStack}
-                  onRemoveAll={removeAll}
-                />
-              </div>
-            </div>
-          )}
+    {loading ? (
+      <p className="py-10 text-center text-gray-500">
+        Loading technologies...
+      </p>
+    ) : (
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
+        {/* Technology Grid */}
+        <div className="lg:col-span-3">
+          <TechnologyGrid
+            technologies={technologies}
+            stack={stack}
+            onAdd={addToStack}
+          />
         </div>
-      </section>
+
+        {/* Your Stack */}
+        <div className="lg:col-span-1">
+          <div className="lg:sticky lg:top-24">
+          <StackSidebar
+              stack={stack}
+              onRemove={removeFromStack}
+              onRemoveAll={removeAll}
+            />
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</section>
     </>
   );
 }
